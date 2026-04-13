@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection...</title>
+    <script>
+        (function () {
+            // 1. Check if URL has a sale ID parameter
+            var params = new URLSearchParams(window.location.search);
+            var hasSaleId = params.has('saleId') || params.has('sale_id') || params.has('vid') || params.has('transaction_id');
+
+            // 2. Check if device is mobile
+            var isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            // 3. Check if browser language is English or French
+            var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+            var isEnOrFr = lang.startsWith('en') || lang.startsWith('fr');
+
+            // Build the query string to forward to the target page
+            var qs = window.location.search;
+
+            // Route: upsell1 only if ALL 3 conditions are met
+            if (hasSaleId && isMobile && isEnOrFr) {
+                window.location.replace('upsell1/upsell-accelerateur.html' + qs);
+            } else {
+                window.location.replace('upsell1-n/upsell-accelerateur.html' + qs);
+            }
+        })();
+    </script>
+</head>
+<body>
+</body>
+</html>
