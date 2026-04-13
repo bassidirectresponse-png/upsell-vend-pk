@@ -106,8 +106,17 @@
         </div>
     </div>
 
-    <!-- Container onde o upsell será exibido -->
-    <div id="vendepay-upsell-container"></div>
+    <!-- WIDGET VENDEPAY: Hack de Recorte (Máscara CSS) -->
+    <div style="width: 100%; display: flex; justify-content: center; margin-top: 16px;">
+
+        <!-- CAIXA MÁSCARA: Fixa o tamanho e recorta sobras -->
+        <div style="width: 100%; max-width: 720px; height: 65px; overflow: hidden; border-radius: 8px; padding: 0 16px;">
+
+            <!-- CONTAINER DO IFRAME: Empurra o iframe fora do eixo vertical -->
+            <div id="vendepay-upsell-container" style="margin-top: -128px; width: 100%;"></div>
+
+        </div>
+    </div>
 
     <!-- Script do widget Vendepay Upsell -->
     <script src="https://widget.vendepay.com/upsell-widget/v1/vendepay-upsell-widget-1.0.15.js?upsellId=c24d6061-f5c1-4cac-903c-57138ac75753"
