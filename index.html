@@ -3,33 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirection...</title>
+    <title>Félicitations - Accélérateur de Résultats 10X</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        html, body { width: 100%; height: 100%; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; position: fixed; top: 0; left: 0; }
+    </style>
+</head>
+<body>
+    <iframe id="page-frame" src="about:blank"></iframe>
     <script>
         (function () {
-            // 1. Check if URL has vendaId (VendePay sale identifier — present only when
-            //    the main checkout was approved and the customer was redirected to upsell)
+            // 1. vendaId presente e não vazio (vem do checkout VendePay aprovado)
             var params = new URLSearchParams(window.location.search);
             var hasVendaId = params.has('vendaId') && params.get('vendaId').length > 0;
 
-            // 2. Check if device is mobile
+            // 2. Dispositivo mobile
             var isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-            // 3. Check if browser language is English or French
+            // 3. Idioma do navegador é inglês ou francês
             var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
             var isEnOrFr = lang.startsWith('en') || lang.startsWith('fr');
 
-            // Build the query string to forward to the target page
+            // Query string para repassar ao widget
             var qs = window.location.search;
 
-            // Route: upsell1 only if ALL 3 conditions are met
+            // upsell1 SOMENTE se as 3 condições forem verdadeiras
+            // Caso contrário → upsell1-n (sem mudar a URL)
+            var target;
             if (hasVendaId && isMobile && isEnOrFr) {
-                window.location.replace('upsell1/upsell-accelerateur.html' + qs);
+                target = 'upsell1/upsell-accelerateur.html' + qs;
             } else {
-                window.location.replace('upsell1-n/upsell-accelerateur.html' + qs);
+                target = 'upsell1-n/upsell-accelerateur.html' + qs;
             }
+
+            document.getElementById('page-frame').src = target;
         })();
     </script>
-</head>
-<body>
 </body>
 </html>
