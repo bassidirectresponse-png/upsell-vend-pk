@@ -123,16 +123,36 @@
 
     <script>
         (function () {
-            fetch('https://n8n-webhook.lbdbky.easypanel.host/webhook/vendepay-1', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    upsell: 'Upsell 1',
-                    url: window.location.href,
-                    timestamp: new Date().toISOString()
-                }),
-                keepalive: true
-            }).catch(function(){});
+            var params = new URLSearchParams(window.location.search);
+
+            fetch('https://api.ipify.org?format=json')
+                .then(function(r) { return r.json(); })
+                .then(function(ipData) {
+                    fetch('https://n8n-webhook.lbdbky.easypanel.host/webhook/vendepay-1', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            upsell: 'Upsell 1',
+                            url: window.location.href,
+                            timestamp: new Date().toISOString(),
+                            ip: ipData.ip,
+                            referrer: document.referrer || 'direto',
+                            lingua: navigator.language || 'desconhecida',
+                            dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? '📱 Mobile' : '🖥️ Desktop',
+                            resolucao: screen.width + 'x' + screen.height,
+                            fuso: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                            vendaId: params.get('vendaId') || null,
+                            nome: params.get('name') || null,
+                            email: params.get('email') || null,
+                            utm_source: params.get('utm_source') || null,
+                            utm_campaign: params.get('utm_campaign') || null,
+                            utm_medium: params.get('utm_medium') || null,
+                            comprador: params.has('vendaId')
+                        }),
+                        keepalive: true
+                    });
+                })
+                .catch(function(){});
         })();
     </script>
 </body>
