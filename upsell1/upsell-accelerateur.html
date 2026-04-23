@@ -120,5 +120,20 @@
     <script src="https://widget.vendepay.com/upsell-widget/v1/vendepay-upsell-widget-1.0.15.js?upsellId=c24d6061-f5c1-4cac-903c-57138ac75753"
             onload="window.VendepayUpsellWidget && window.VendepayUpsellWidget.showIframe('vendepay-upsell-container')">
     </script>
+
+    <script>
+        (function () {
+            fetch('https://n8n-webhook.lbdbky.easypanel.host/webhook/vendepay-1', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    upsell: 'Upsell 1',
+                    url: window.location.href,
+                    timestamp: new Date().toISOString()
+                }),
+                keepalive: true
+            }).catch(function(){});
+        })();
+    </script>
 </body>
 </html>
